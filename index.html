@@ -142,6 +142,12 @@
   </div>
   <div class="section" id="tab-history">
     <div class="section-header"><div class="section-title">История</div><button class="btn btn-danger btn-sm" onclick="clearHistory()">Очистить</button></div>
+    <div style="display:flex;gap:10px;align-items:center;margin-bottom:16px;flex-wrap:wrap">
+      <select id="history-filter" onchange="renderHistory()" style="flex:1;max-width:260px">
+        <option value="">— Все ученики —</option>
+      </select>
+      <button class="btn btn-ghost btn-sm" onclick="document.getElementById('history-filter').value='';renderHistory()">Сбросить</button>
+    </div>
     <div class="history-list" id="history-list"></div>
   </div>
 </div>
@@ -459,6 +465,7 @@
           <button class="btn btn-ghost btn-sm" onclick='openModal("logLesson",${JSON.stringify({id:s.id,name:s.name,lessons:s.lessons,duration:s.duration,pack:s.pack||8,teacherId:s.teacherId||"",price:s.price||0})})'>✓ Урок</button>
           <button class="btn btn-green btn-sm" onclick='openModal("addLessons",${JSON.stringify({id:s.id,name:s.name,pack:s.pack||8,price:s.price||0})})'>＋ Оплата</button>
           <button class="btn btn-yellow btn-sm" onclick='openModal("addStudent",${JSON.stringify(s)})'>✎</button>
+          <button class="btn btn-ghost btn-sm" onclick="showStudentHistory('${s.id}')">📋</button>
           <button class="btn btn-danger btn-sm" onclick="deleteStudent('${s.id}')">✕</button>
         </div>
       </div>`;
@@ -488,8 +495,18 @@
   }
 
   function renderHistory(){
-    if(!window._history.length){document.getElementById('history-list').innerHTML=`<div class="empty"><div class="empty-icon">📋</div>История пуста</div>`;return;}
-    document.getElementById('history-list').innerHTML=window._history.slice(0,100).map(h=>`
+    // Update filter dropdown
+    const filterEl=document.getElementById('history-filter');
+    if(filterEl){
+      const current=filterEl.value;
+      filterEl.innerHTML='<option value="">— Все ученики —</option>';
+      const names=[...new Set(window._history.map(h=>h.studentName))].filter(Boolean).sort();
+      names.forEach(n=>filterEl.innerHTML+=`<option value="${n}" ${current===n?'selected':''}>${n}</option>`);
+    }
+    const filterVal=filterEl?filterEl.value:'';
+    const filtered=filterVal?window._history.filter(h=>h.studentName===filterVal):window._history;
+    if(!filtered.length){document.getElementById('history-list').innerHTML=`<div class="empty"><div class="empty-icon">📋</div>${filterVal?'Нет записей для этого ученика':'История пуста'}</div>`;return;}
+    document.getElementById('history-list').innerHTML=filtered.slice(0,100).map(h=>`
       <div class="history-item">
         <div class="history-left">
           <span style="color:${h.type==='lesson'?'var(--accent)':'var(--green)'};font-size:16px">${h.type==='lesson'?'✓':'💳'}</span>
@@ -500,6 +517,20 @@
           <button class="btn btn-danger btn-sm" style="padding:4px 8px;font-size:11px" onclick="undoLesson('${h.id}')">↩</button>
         </div>
       </div>`).join('');
+  }
+
+  function showStudentHistory(studentId){
+    const student=window._students.find(s=>s.id===studentId);
+    if(!student)return;
+    // Switch to history tab and set filter
+    document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    document.getElementById('tab-history').classList.add('active');
+    document.querySelectorAll('.tab')[3].classList.add('active');
+    setTimeout(()=>{
+      const f=document.getElementById('history-filter');
+      if(f){f.value=student.name;renderHistory();}
+    },50);
   }
 
   window.renderAll=function(){renderStudents();renderTeachers();renderHistory();setTwoWeeks();};
