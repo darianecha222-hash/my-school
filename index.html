@@ -3,21 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Моя Школа</title>
+<title>KEHSA ENGLISH</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0d0d14;
-    --surface: #161620;
-    --surface2: #1e1e2e;
-    --border: #2a2a3a;
-    --accent: #6c63ff;
-    --green: #4ade80;
-    --yellow: #fbbf24;
-    --red: #f87171;
-    --text: #f0f0f8;
-    --text2: #9090b0;
-    --text3: #4a4a6a;
+    --bg: #0d0d14; --surface: #161620; --surface2: #1e1e2e; --border: #2a2a3a;
+    --accent: #6c63ff; --green: #4ade80; --yellow: #fbbf24; --red: #f87171;
+    --text: #f0f0f8; --text2: #9090b0; --text3: #4a4a6a;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'Syne', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; font-size: 15px; }
@@ -32,8 +24,7 @@
   .tab { padding: 8px 14px; border-radius: 9px; border: none; cursor: pointer; font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; transition: all .2s; background: transparent; color: var(--text2); }
   .tab.active { background: var(--accent); color: #fff; }
   .main { max-width: 1000px; margin: 0 auto; padding: 20px 14px; }
-  .section { display: none; }
-  .section.active { display: block; }
+  .section { display: none; } .section.active { display: block; }
   .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
   .section-title { font-size: 20px; font-weight: 800; }
   .btn { padding: 9px 18px; border-radius: 10px; border: none; cursor: pointer; font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; transition: all .15s; }
@@ -41,6 +32,7 @@
   .btn-ghost { background: var(--surface2); color: var(--text2); }
   .btn-green { background: rgba(74,222,128,.15); color: var(--green); }
   .btn-danger { background: rgba(248,113,113,.12); color: var(--red); }
+  .btn-yellow { background: rgba(251,191,36,.12); color: var(--yellow); }
   .btn-sm { padding: 6px 12px; font-size: 12px; border-radius: 8px; }
   .stats-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; margin-bottom: 18px; }
   .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px; }
@@ -64,7 +56,8 @@
   .progress-fill { height: 100%; border-radius: 6px; transition: width .4s; }
   .debt-note { font-size: 12px; color: var(--red); margin-bottom: 12px; }
   .card-actions { display: flex; gap: 8px; flex-wrap: wrap; }
-  .teacher-card { background: var(--surface); border: 1px solid var(--border); border-radius: 18px; padding: 20px; position: relative; overflow: hidden; }
+  .teacher-card { background: var(--surface); border: 1px solid var(--border); border-radius: 18px; padding: 20px; position: relative; overflow: hidden; transition: border-color .2s; }
+  .teacher-card:hover { border-color: var(--accent); }
   .teacher-rates { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
   .rate-badge { font-size: 12px; background: var(--surface2); border-radius: 7px; padding: 4px 10px; color: var(--text2); }
   .rate-badge strong { color: var(--text); font-weight: 600; }
@@ -82,9 +75,9 @@
   .salary-total { display: flex; justify-content: space-between; align-items: center; padding-top: 16px; margin-top: 4px; }
   .total-sum { font-family: monospace; font-size: 24px; font-weight: 800; color: var(--accent); }
   .history-list { display: flex; flex-direction: column; gap: 8px; }
-  .history-item { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
-  .history-left { display: flex; align-items: center; gap: 10px; }
-  .history-date { font-family: monospace; font-size: 11px; color: var(--text3); white-space: nowrap; margin-left: 10px; }
+  .history-item { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; font-size: 13px; gap: 8px; }
+  .history-left { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; }
+  .history-date { font-family: monospace; font-size: 11px; color: var(--text3); white-space: nowrap; }
   .empty { text-align: center; padding: 60px; color: var(--text3); }
   .empty-icon { font-size: 40px; margin-bottom: 12px; }
   .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.75); display: flex; align-items: center; justify-content: center; z-index: 200; padding: 16px; backdrop-filter: blur(6px); opacity: 0; pointer-events: none; transition: opacity .2s; }
@@ -113,8 +106,9 @@
 </head>
 <body>
 <div id="loading-screen"><div class="spinner"></div><div style="color:var(--text2);font-size:13px">Загрузка данных…</div></div>
+
 <header>
-  <div class="logo">моя <span>школа</span><span class="saving" id="saving-indicator"></span></div>
+  <div class="logo">KESHA <span>ENGLISH</span><span class="saving" id="saving-indicator"></span></div>
   <div class="tabs">
     <button class="tab active" onclick="switchTab('students',this)">Ученики</button>
     <button class="tab" onclick="switchTab('teachers',this)">Учителя</button>
@@ -122,6 +116,7 @@
     <button class="tab" onclick="switchTab('history',this)">История</button>
   </div>
 </header>
+
 <div class="main">
   <div class="section active" id="tab-students">
     <div class="section-header"><div class="section-title">Ученики</div><button class="btn btn-primary" onclick="openModal('addStudent')">+ Добавить</button></div>
@@ -151,22 +146,25 @@
   </div>
 </div>
 
+<!-- Модалки -->
 <div class="modal-overlay" id="modal-addStudent" onclick="closeModalOverlay(event,'addStudent')">
   <div class="modal">
-    <div class="modal-title">Новый ученик</div>
+    <div class="modal-title" id="addStudent-title">Новый ученик</div>
+    <input type="hidden" id="s-id">
     <div class="field"><label>Имя ученика</label><input type="text" id="s-name" placeholder="Имя"></div>
     <div class="field"><label>Учитель</label><select id="s-teacher"><option value="">— выбрать —</option></select></div>
     <div class="field"><label>Длительность урока</label><select id="s-dur"><option value="30">30 минут</option><option value="45" selected>45 минут</option><option value="60">60 минут</option></select></div>
     <div class="field"><label>Уроков в пакете</label><input type="number" id="s-pack" value="8" min="1"></div>
-    <div class="field"><label>Уроков осталось сейчас</label><input type="number" id="s-current" value="8" min="0"></div>
+    <div class="field" id="s-current-field"><label>Уроков осталось сейчас</label><input type="number" id="s-current" value="8" min="0"></div>
     <div class="field"><label>Стоимость одного урока (₽)</label><input type="number" id="s-price" placeholder="1500"></div>
-    <div class="modal-actions"><button class="btn btn-ghost" onclick="closeModal('addStudent')">Отмена</button><button class="btn btn-primary" onclick="addStudent()">Добавить</button></div>
+    <div class="modal-actions"><button class="btn btn-ghost" onclick="closeModal('addStudent')">Отмена</button><button class="btn btn-primary" id="addStudent-btn" onclick="saveStudent()">Добавить</button></div>
   </div>
 </div>
 
 <div class="modal-overlay" id="modal-addTeacher" onclick="closeModalOverlay(event,'addTeacher')">
   <div class="modal">
-    <div class="modal-title">Новый учитель</div>
+    <div class="modal-title" id="addTeacher-title">Новый учитель</div>
+    <input type="hidden" id="t-id">
     <div class="field"><label>Имя учителя</label><input type="text" id="t-name" placeholder="Имя"></div>
     <div class="rates-box">
       <div class="rates-title">Ставка за урок (₽)</div>
@@ -174,7 +172,7 @@
       <div class="rate-row"><div class="rate-row-lbl">45 минут</div><input type="number" id="t-r45" placeholder="0" style="flex:1"></div>
       <div class="rate-row"><div class="rate-row-lbl">60 минут</div><input type="number" id="t-r60" placeholder="0" style="flex:1"></div>
     </div>
-    <div class="modal-actions"><button class="btn btn-ghost" onclick="closeModal('addTeacher')">Отмена</button><button class="btn btn-primary" onclick="addTeacher()">Добавить</button></div>
+    <div class="modal-actions"><button class="btn btn-ghost" onclick="closeModal('addTeacher')">Отмена</button><button class="btn btn-primary" id="addTeacher-btn" onclick="saveTeacher()">Добавить</button></div>
   </div>
 </div>
 
@@ -200,63 +198,203 @@
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
   import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
-  const firebaseConfig = { apiKey: "AIzaSyBvboVfdFQgRi2--qLGEWz4_rEue6fR7LI", authDomain: "my-school-a11bc.firebaseapp.com", projectId: "my-school-a11bc", storageBucket: "my-school-a11bc.firebasestorage.app", messagingSenderId: "599574421079", appId: "1:599574421079:web:864e2bec8686dc738bcd12" };
-  const app = initializeApp(firebaseConfig);
+  const cfg = { apiKey:"AIzaSyBvboVfdFQgRi2--qLGEWz4_rEue6fR7LI", authDomain:"my-school-a11bc.firebaseapp.com", projectId:"my-school-a11bc", storageBucket:"my-school-a11bc.firebasestorage.app", messagingSenderId:"599574421079", appId:"1:599574421079:web:864e2bec8686dc738bcd12" };
+  const app = initializeApp(cfg);
   const db = getFirestore(app);
-  window._db = db; window._setDoc = setDoc; window._doc = doc;
+  window._db=db; window._setDoc=setDoc; window._doc=doc;
   try {
-    const snap = await getDoc(doc(db, "school", "data"));
-    if (snap.exists()) { const d = snap.data(); window._students = d.students||[]; window._teachers = d.teachers||[]; window._history = d.history||[]; }
-    else { window._students = []; window._teachers = []; window._history = []; }
-  } catch(e) { console.error(e); window._students = []; window._teachers = []; window._history = []; }
-  document.getElementById('loading-screen').style.display = 'none';
+    const snap = await getDoc(doc(db,"school","data"));
+    if(snap.exists()){const d=snap.data();window._students=d.students||[];window._teachers=d.teachers||[];window._history=d.history||[];}
+    else{window._students=[];window._teachers=[];window._history=[];}
+  } catch(e){console.error(e);window._students=[];window._teachers=[];window._history=[];}
+  document.getElementById('loading-screen').style.display='none';
   window.renderAll();
 </script>
 
 <script>
-  window._students = window._students||[]; window._teachers = window._teachers||[]; window._history = window._history||[];
-  window._currentLesson = null; window._currentPay = null;
-  const DURATIONS = [30,45,60];
-  function uid() { return Date.now().toString(36)+Math.random().toString(36).slice(2); }
-  function today() { return new Date().toISOString().split('T')[0]; }
-  function fmtDate(d) { if(!d) return ''; return new Date(d+'T00:00:00').toLocaleDateString('ru-RU',{day:'numeric',month:'short',year:'numeric'}); }
-  function status(l) { return l<=0?'danger':l<=2?'warning':'ok'; }
-  function statusColor(s) { return s==='ok'?'var(--green)':s==='warning'?'var(--yellow)':'var(--red)'; }
+  window._students=window._students||[];window._teachers=window._teachers||[];window._history=window._history||[];
+  window._currentLesson=null;window._currentPay=null;
+  const DURATIONS=[30,45,60];
+  function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2);}
+  function today(){return new Date().toISOString().split('T')[0];}
+  function fmtDate(d){if(!d)return '';return new Date(d+'T00:00:00').toLocaleDateString('ru-RU',{day:'numeric',month:'short',year:'numeric'});}
+  function status(l){return l<=0?'danger':l<=2?'warning':'ok';}
+  function statusColor(s){return s==='ok'?'var(--green)':s==='warning'?'var(--yellow)':'var(--red)';}
 
-  async function saveAll() {
-    if(!window._db) return;
-    const ind = document.getElementById('saving-indicator');
-    ind.textContent = 'сохраняю…';
-    try {
+  async function saveAll(){
+    if(!window._db)return;
+    const ind=document.getElementById('saving-indicator');
+    ind.textContent='сохраняю…';
+    try{
       await window._setDoc(window._doc(window._db,'school','data'),{students:window._students,teachers:window._teachers,history:window._history});
-      ind.textContent = '✓ сохранено'; setTimeout(()=>ind.textContent='',2000);
-    } catch(e) { ind.textContent = '⚠ ошибка'; console.error(e); }
+      ind.textContent='✓ сохранено';setTimeout(()=>ind.textContent='',2000);
+    }catch(e){ind.textContent='⚠ ошибка';console.error(e);}
   }
 
-  function switchTab(name,btn) {
+  function switchTab(name,btn){
     document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
     document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-    document.getElementById('tab-'+name).classList.add('active'); btn.classList.add('active');
+    document.getElementById('tab-'+name).classList.add('active');btn.classList.add('active');
   }
-  function openModal(name,data) {
-    if(name==='addStudent'){const sel=document.getElementById('s-teacher');sel.innerHTML='<option value="">— выбрать —</option>';window._teachers.forEach(t=>sel.innerHTML+=`<option value="${t.id}">${t.name}</option>`);}
-    if(name==='logLesson'&&data){window._currentLesson=data;document.getElementById('ll-title').textContent='Урок: '+data.name;document.getElementById('ll-date').value=today();document.getElementById('ll-count').value='1';updateLessonPreview();}
-    if(name==='addLessons'&&data){window._currentPay=data;document.getElementById('al-title').textContent='Оплата: '+data.name;document.getElementById('al-count').value=String(data.pack||8);updatePayPreview();}
+
+  function openModal(name,data){
+    if(name==='addStudent'){
+      const sel=document.getElementById('s-teacher');
+      sel.innerHTML='<option value="">— выбрать —</option>';
+      window._teachers.forEach(t=>sel.innerHTML+=`<option value="${t.id}">${t.name}</option>`);
+      if(data){
+        // Edit mode
+        document.getElementById('addStudent-title').textContent='Редактировать ученика';
+        document.getElementById('addStudent-btn').textContent='Сохранить';
+        document.getElementById('s-id').value=data.id;
+        document.getElementById('s-name').value=data.name;
+        document.getElementById('s-teacher').value=data.teacherId||'';
+        document.getElementById('s-dur').value=data.duration||45;
+        document.getElementById('s-pack').value=data.pack||8;
+        document.getElementById('s-current').value=data.lessons;
+        document.getElementById('s-price').value=data.price||'';
+        document.getElementById('s-current-field').style.display='block';
+      } else {
+        // Add mode
+        document.getElementById('addStudent-title').textContent='Новый ученик';
+        document.getElementById('addStudent-btn').textContent='Добавить';
+        document.getElementById('s-id').value='';
+        document.getElementById('s-name').value='';
+        document.getElementById('s-teacher').value='';
+        document.getElementById('s-dur').value='45';
+        document.getElementById('s-pack').value='8';
+        document.getElementById('s-current').value='8';
+        document.getElementById('s-price').value='';
+      }
+    }
+    if(name==='addTeacher'){
+      if(data){
+        // Edit mode
+        document.getElementById('addTeacher-title').textContent='Редактировать учителя';
+        document.getElementById('addTeacher-btn').textContent='Сохранить';
+        document.getElementById('t-id').value=data.id;
+        document.getElementById('t-name').value=data.name;
+        document.getElementById('t-r30').value=(data.rates||{})[30]||'';
+        document.getElementById('t-r45').value=(data.rates||{})[45]||'';
+        document.getElementById('t-r60').value=(data.rates||{})[60]||'';
+      } else {
+        // Add mode
+        document.getElementById('addTeacher-title').textContent='Новый учитель';
+        document.getElementById('addTeacher-btn').textContent='Добавить';
+        document.getElementById('t-id').value='';
+        document.getElementById('t-name').value='';
+        document.getElementById('t-r30').value='';
+        document.getElementById('t-r45').value='';
+        document.getElementById('t-r60').value='';
+      }
+    }
+    if(name==='logLesson'&&data){
+      window._currentLesson=data;
+      document.getElementById('ll-title').textContent='Урок: '+data.name;
+      document.getElementById('ll-date').value=today();
+      document.getElementById('ll-count').value='1';
+      updateLessonPreview();
+    }
+    if(name==='addLessons'&&data){
+      window._currentPay=data;
+      document.getElementById('al-title').textContent='Оплата: '+data.name;
+      document.getElementById('al-count').value=String(data.pack||8);
+      updatePayPreview();
+    }
     document.getElementById('modal-'+name).classList.add('open');
   }
+
   function closeModal(name){document.getElementById('modal-'+name).classList.remove('open');}
   function closeModalOverlay(e,name){if(e.target===document.getElementById('modal-'+name))closeModal(name);}
-  function updateLessonPreview(){const s=window._currentLesson;if(!s)return;const c=parseInt(document.getElementById('ll-count').value)||1;document.getElementById('ll-preview').textContent=`Длительность: ${s.duration} мин · Останется: ${s.lessons-c} уроков`;}
-  function updatePayPreview(){const s=window._currentPay;if(!s)return;const c=parseInt(document.getElementById('al-count').value)||0;document.getElementById('al-preview').textContent=s.price?`Сумма к получению: ${(c*s.price).toLocaleString('ru')} ₽`:`Добавится ${c} уроков`;}
 
-  function addStudent(){const name=document.getElementById('s-name').value.trim();if(!name)return alert('Введите имя');const s={id:uid(),name,teacherId:document.getElementById('s-teacher').value,duration:parseInt(document.getElementById('s-dur').value)||45,pack:parseInt(document.getElementById('s-pack').value)||8,lessons:parseInt(document.getElementById('s-current').value)||0,price:parseFloat(document.getElementById('s-price').value)||0};window._students.push(s);saveAll();closeModal('addStudent');document.getElementById('s-name').value='';renderStudents();}
-  function addTeacher(){const name=document.getElementById('t-name').value.trim();if(!name)return alert('Введите имя');const t={id:uid(),name,rates:{30:parseFloat(document.getElementById('t-r30').value)||0,45:parseFloat(document.getElementById('t-r45').value)||0,60:parseFloat(document.getElementById('t-r60').value)||0}};window._teachers.push(t);saveAll();closeModal('addTeacher');document.getElementById('t-name').value='';document.getElementById('t-r30').value='';document.getElementById('t-r45').value='';document.getElementById('t-r60').value='';renderTeachers();}
-  function logLesson(){const s=window._currentLesson;if(!s)return;const count=parseInt(document.getElementById('ll-count').value)||1;const date=document.getElementById('ll-date').value;window._students=window._students.map(st=>st.id===s.id?{...st,lessons:st.lessons-count}:st);window._history.unshift({id:uid(),type:'lesson',date,studentId:s.id,studentName:s.name,teacherId:s.teacherId,duration:s.duration,count});saveAll();closeModal('logLesson');renderAll();}
-  function addLessons(){const s=window._currentPay;if(!s)return;const count=parseInt(document.getElementById('al-count').value)||8;window._students=window._students.map(st=>st.id===s.id?{...st,lessons:st.lessons+count}:st);window._history.unshift({id:uid(),type:'payment',date:today(),studentId:s.id,studentName:s.name,count});saveAll();closeModal('addLessons');renderAll();}
+  function updateLessonPreview(){
+    const s=window._currentLesson;if(!s)return;
+    const c=parseInt(document.getElementById('ll-count').value)||1;
+    document.getElementById('ll-preview').textContent=`Длительность: ${s.duration} мин · Останется: ${s.lessons-c} уроков`;
+  }
+  function updatePayPreview(){
+    const s=window._currentPay;if(!s)return;
+    const c=parseInt(document.getElementById('al-count').value)||0;
+    document.getElementById('al-preview').textContent=s.price?`Сумма к получению: ${(c*s.price).toLocaleString('ru')} ₽`:`Добавится ${c} уроков`;
+  }
+
+  function saveStudent(){
+    const name=document.getElementById('s-name').value.trim();
+    if(!name)return alert('Введите имя');
+    const id=document.getElementById('s-id').value;
+    const data={
+      name,
+      teacherId:document.getElementById('s-teacher').value,
+      duration:parseInt(document.getElementById('s-dur').value)||45,
+      pack:parseInt(document.getElementById('s-pack').value)||8,
+      lessons:parseInt(document.getElementById('s-current').value)||0,
+      price:parseFloat(document.getElementById('s-price').value)||0
+    };
+    if(id){
+      // Edit
+      window._students=window._students.map(s=>s.id===id?{...s,...data}:s);
+    } else {
+      // Add
+      window._students.push({id:uid(),...data});
+    }
+    saveAll();closeModal('addStudent');renderStudents();
+  }
+
+  function saveTeacher(){
+    const name=document.getElementById('t-name').value.trim();
+    if(!name)return alert('Введите имя');
+    const id=document.getElementById('t-id').value;
+    const data={
+      name,
+      rates:{30:parseFloat(document.getElementById('t-r30').value)||0,45:parseFloat(document.getElementById('t-r45').value)||0,60:parseFloat(document.getElementById('t-r60').value)||0}
+    };
+    if(id){
+      window._teachers=window._teachers.map(t=>t.id===id?{...t,...data}:t);
+    } else {
+      window._teachers.push({id:uid(),...data});
+    }
+    saveAll();closeModal('addTeacher');renderTeachers();
+  }
+
+  function logLesson(){
+    const s=window._currentLesson;if(!s)return;
+    const count=parseInt(document.getElementById('ll-count').value)||1;
+    const date=document.getElementById('ll-date').value;
+    window._students=window._students.map(st=>st.id===s.id?{...st,lessons:st.lessons-count}:st);
+    window._history.unshift({id:uid(),type:'lesson',date,studentId:s.id,studentName:s.name,teacherId:s.teacherId,duration:s.duration,count});
+    saveAll();closeModal('logLesson');renderAll();
+  }
+
+  function addLessons(){
+    const s=window._currentPay;if(!s)return;
+    const count=parseInt(document.getElementById('al-count').value)||8;
+    window._students=window._students.map(st=>st.id===s.id?{...st,lessons:st.lessons+count}:st);
+    window._history.unshift({id:uid(),type:'payment',date:today(),studentId:s.id,studentName:s.name,count});
+    saveAll();closeModal('addLessons');renderAll();
+  }
+
+  function undoLesson(historyId){
+    const entry=window._history.find(h=>h.id===historyId);
+    if(!entry)return;
+    if(!confirm(`Отменить запись «${entry.type==='lesson'?'Урок':'Оплата'}: ${entry.studentName}»?`))return;
+    if(entry.type==='lesson'){
+      window._students=window._students.map(s=>s.id===entry.studentId?{...s,lessons:s.lessons+entry.count}:s);
+    } else if(entry.type==='payment'){
+      window._students=window._students.map(s=>s.id===entry.studentId?{...s,lessons:s.lessons-entry.count}:s);
+    }
+    window._history=window._history.filter(h=>h.id!==historyId);
+    saveAll();renderAll();
+  }
+
   function deleteStudent(id){if(!confirm('Удалить ученика?'))return;window._students=window._students.filter(s=>s.id!==id);saveAll();renderStudents();}
   function deleteTeacher(id){if(!confirm('Удалить учителя?'))return;window._teachers=window._teachers.filter(t=>t.id!==id);saveAll();renderTeachers();}
   function clearHistory(){if(!confirm('Очистить историю?'))return;window._history=[];saveAll();renderHistory();}
-  function setTwoWeeks(){const to=new Date(),from=new Date();from.setDate(from.getDate()-14);document.getElementById('sal-to').value=to.toISOString().split('T')[0];document.getElementById('sal-from').value=from.toISOString().split('T')[0];}
+
+  function setTwoWeeks(){
+    const to=new Date(),from=new Date();from.setDate(from.getDate()-14);
+    document.getElementById('sal-to').value=to.toISOString().split('T')[0];
+    document.getElementById('sal-from').value=from.toISOString().split('T')[0];
+  }
 
   function calcSalary(){
     const from=document.getElementById('sal-from').value,to=document.getElementById('sal-to').value,el=document.getElementById('salary-results');
@@ -266,7 +404,13 @@
     let totalAll=0,html='';
     window._teachers.forEach(t=>{
       let total=0,totalCount=0,durHtml='';
-      DURATIONS.forEach(dur=>{const tl=lessons.filter(l=>l.teacherId===t.id&&(l.duration||45)===dur);const cnt=tl.reduce((s,l)=>s+(l.count||1),0);if(!cnt)return;const rate=(t.rates||{})[dur]||0;const amt=cnt*rate;total+=amt;totalCount+=cnt;durHtml+=`<div class="dur-block"><div class="dur-lbl">${dur} мин</div><div class="dur-calc">${cnt} ур × ${rate} ₽</div><div class="dur-sum">${amt.toLocaleString('ru')} ₽</div></div>`;});
+      DURATIONS.forEach(dur=>{
+        const tl=lessons.filter(l=>l.teacherId===t.id&&(l.duration||45)===dur);
+        const cnt=tl.reduce((s,l)=>s+(l.count||1),0);if(!cnt)return;
+        const rate=(t.rates||{})[dur]||0;const amt=cnt*rate;
+        total+=amt;totalCount+=cnt;
+        durHtml+=`<div class="dur-block"><div class="dur-lbl">${dur} мин</div><div class="dur-calc">${cnt} ур × ${rate} ₽</div><div class="dur-sum">${amt.toLocaleString('ru')} ₽</div></div>`;
+      });
       totalAll+=total;
       html+=`<div class="teacher-row"><div style="flex:1"><div style="font-weight:700;font-size:16px">${t.name}</div>${totalCount===0?'<div style="font-size:13px;color:var(--text3);margin-top:6px">Нет уроков за период</div>':`<div class="dur-blocks">${durHtml}</div>`}</div><div style="font-family:monospace;font-size:20px;font-weight:800;color:var(--green);margin-left:16px;white-space:nowrap">${total.toLocaleString('ru')} ₽</div></div>`;
     });
@@ -277,32 +421,81 @@
   function renderStudents(){
     const sorted=[...window._students].sort((a,b)=>a.lessons-b.lessons);
     const urgent=window._students.filter(s=>s.lessons<=0),warn=window._students.filter(s=>s.lessons>0&&s.lessons<=2);
-    document.getElementById('students-stats').innerHTML=[{val:window._students.length,lbl:'Всего',color:'var(--accent)'},{val:window._students.filter(s=>s.lessons>2).length,lbl:'Активных',color:'var(--green)'},{val:warn.length,lbl:'Мало уроков',color:'var(--yellow)'},{val:urgent.length,lbl:'Нужна оплата',color:'var(--red)'}].map(({val,lbl,color})=>`<div class="stat-card"><div class="stat-val" style="color:${color}">${val}</div><div class="stat-lbl">${lbl}</div></div>`).join('');
+    document.getElementById('students-stats').innerHTML=[
+      {val:window._students.length,lbl:'Всего',color:'var(--accent)'},
+      {val:window._students.filter(s=>s.lessons>2).length,lbl:'Активных',color:'var(--green)'},
+      {val:warn.length,lbl:'Мало уроков',color:'var(--yellow)'},
+      {val:urgent.length,lbl:'Нужна оплата',color:'var(--red)'}
+    ].map(({val,lbl,color})=>`<div class="stat-card"><div class="stat-val" style="color:${color}">${val}</div><div class="stat-lbl">${lbl}</div></div>`).join('');
     let alertsHtml='';
     if(urgent.length)alertsHtml+=`<div class="alert alert-red">🔴 Долг: ${urgent.map(s=>s.name).join(', ')}</div>`;
     if(warn.length)alertsHtml+=`<div class="alert alert-yellow">⚠️ Мало уроков: ${warn.map(s=>`${s.name} (${s.lessons})`).join(', ')}</div>`;
     document.getElementById('students-alerts').innerHTML=alertsHtml;
     if(!window._students.length){document.getElementById('students-list').innerHTML=`<div class="empty" style="grid-column:1/-1"><div class="empty-icon">👩‍🎓</div>Добавьте первого ученика</div>`;return;}
     document.getElementById('students-list').innerHTML=sorted.map(s=>{
-      const teacher=window._teachers.find(t=>t.id===s.teacherId);const st=status(s.lessons);const color=statusColor(st);const pct=Math.max(0,Math.min(100,(s.lessons/(s.pack||8))*100));
+      const teacher=window._teachers.find(t=>t.id===s.teacherId);
+      const st=status(s.lessons);const color=statusColor(st);
+      const pct=Math.max(0,Math.min(100,(s.lessons/(s.pack||8))*100));
       const badgeBg=st==='ok'?'rgba(74,222,128,.15)':st==='warning'?'rgba(251,191,36,.15)':'rgba(248,113,113,.15)';
       const badgeText=st==='ok'?'OK':st==='warning'?'Мало':'Долг';
-      const sn=s.name.replace(/'/g,"\\'");
-      return `<div class="card"><div class="card-bar" style="background:${color}"></div><div class="card-top"><div><div class="card-name">${s.name}</div><div class="card-sub">${teacher?teacher.name:'—'} · ${s.duration} мин${s.price?' · '+s.price+' ₽/ур':''}</div></div><span class="badge" style="background:${badgeBg};color:${color}">${badgeText}</span></div><div class="card-nums"><div><div class="num-big" style="color:${color}">${s.lessons}</div><div class="num-lbl">осталось</div></div><div><div class="num-big" style="color:var(--text3)">${s.pack||8}</div><div class="num-lbl">в пакете</div></div></div><div class="progress-bar"><div class="progress-fill" style="width:${pct}%;background:${color}"></div></div>${s.lessons<0?`<div class="debt-note">⚠️ Долг: ${Math.abs(s.lessons)} ур.${s.price?' ('+( Math.abs(s.lessons)*s.price).toLocaleString('ru')+' ₽)':''}</div>`:''}<div class="card-actions"><button class="btn btn-ghost btn-sm" onclick="openModal('logLesson',{id:'${s.id}',name:'${sn}',lessons:${s.lessons},duration:${s.duration},pack:${s.pack||8},teacherId:'${s.teacherId||''}',price:${s.price||0}})">✓ Урок</button><button class="btn btn-green btn-sm" onclick="openModal('addLessons',{id:'${s.id}',name:'${sn}',pack:${s.pack||8},price:${s.price||0}})">＋ Оплата</button><button class="btn btn-danger btn-sm" onclick="deleteStudent('${s.id}')">✕</button></div></div>`;
+      const sd=JSON.stringify(s).replace(/'/g,"\\'").replace(/"/g,'&quot;');
+      return `<div class="card">
+        <div class="card-bar" style="background:${color}"></div>
+        <div class="card-top">
+          <div><div class="card-name">${s.name}</div><div class="card-sub">${teacher?teacher.name:'—'} · ${s.duration} мин${s.price?' · '+s.price+' ₽/ур':''}</div></div>
+          <span class="badge" style="background:${badgeBg};color:${color}">${badgeText}</span>
+        </div>
+        <div class="card-nums">
+          <div><div class="num-big" style="color:${color}">${s.lessons}</div><div class="num-lbl">осталось</div></div>
+          <div><div class="num-big" style="color:var(--text3)">${s.pack||8}</div><div class="num-lbl">в пакете</div></div>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" style="width:${pct}%;background:${color}"></div></div>
+        ${s.lessons<0?`<div class="debt-note">⚠️ Долг: ${Math.abs(s.lessons)} ур.${s.price?' ('+( Math.abs(s.lessons)*s.price).toLocaleString('ru')+' ₽)':''}</div>`:''}
+        <div class="card-actions">
+          <button class="btn btn-ghost btn-sm" onclick='openModal("logLesson",${JSON.stringify({id:s.id,name:s.name,lessons:s.lessons,duration:s.duration,pack:s.pack||8,teacherId:s.teacherId||"",price:s.price||0})})'>✓ Урок</button>
+          <button class="btn btn-green btn-sm" onclick='openModal("addLessons",${JSON.stringify({id:s.id,name:s.name,pack:s.pack||8,price:s.price||0})})'>＋ Оплата</button>
+          <button class="btn btn-yellow btn-sm" onclick='openModal("addStudent",${JSON.stringify(s)})'>✎</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteStudent('${s.id}')">✕</button>
+        </div>
+      </div>`;
     }).join('');
   }
 
   function renderTeachers(){
     if(!window._teachers.length){document.getElementById('teachers-list').innerHTML=`<div class="empty" style="grid-column:1/-1"><div class="empty-icon">👩‍🏫</div>Добавьте первого учителя</div>`;return;}
     document.getElementById('teachers-list').innerHTML=window._teachers.map(t=>{
-      const myStudents=window._students.filter(s=>s.teacherId===t.id);const totalLessons=window._history.filter(h=>h.type==='lesson'&&h.teacherId===t.id).reduce((s,l)=>s+(l.count||1),0);const rates=t.rates||{};
-      return `<div class="teacher-card"><div class="card-bar" style="background:var(--accent)"></div><div class="card-name" style="margin-bottom:4px;margin-top:4px">${t.name}</div><div class="teacher-rates">${DURATIONS.map(d=>`<span class="rate-badge">${d} мин — <strong>${rates[d]||0} ₽</strong></span>`).join('')}</div><div class="teacher-nums"><div><div class="num-big" style="color:var(--accent)">${myStudents.length}</div><div class="num-lbl">учеников</div></div><div><div class="num-big" style="color:var(--green)">${totalLessons}</div><div class="num-lbl">уроков всего</div></div></div><button class="btn btn-danger btn-sm" onclick="deleteTeacher('${t.id}')">Удалить</button></div>`;
+      const myStudents=window._students.filter(s=>s.teacherId===t.id);
+      const totalLessons=window._history.filter(h=>h.type==='lesson'&&h.teacherId===t.id).reduce((s,l)=>s+(l.count||1),0);
+      const rates=t.rates||{};
+      return `<div class="teacher-card">
+        <div class="card-bar" style="background:var(--accent)"></div>
+        <div class="card-name" style="margin-bottom:4px;margin-top:4px">${t.name}</div>
+        <div class="teacher-rates">${DURATIONS.map(d=>`<span class="rate-badge">${d} мин — <strong>${rates[d]||0} ₽</strong></span>`).join('')}</div>
+        <div class="teacher-nums">
+          <div><div class="num-big" style="color:var(--accent)">${myStudents.length}</div><div class="num-lbl">учеников</div></div>
+          <div><div class="num-big" style="color:var(--green)">${totalLessons}</div><div class="num-lbl">уроков всего</div></div>
+        </div>
+        <div class="card-actions">
+          <button class="btn btn-yellow btn-sm" onclick='openModal("addTeacher",${JSON.stringify(t)})'>✎ Изменить</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteTeacher('${t.id}')">Удалить</button>
+        </div>
+      </div>`;
     }).join('');
   }
 
   function renderHistory(){
     if(!window._history.length){document.getElementById('history-list').innerHTML=`<div class="empty"><div class="empty-icon">📋</div>История пуста</div>`;return;}
-    document.getElementById('history-list').innerHTML=window._history.slice(0,100).map(h=>`<div class="history-item"><div class="history-left"><span style="color:${h.type==='lesson'?'var(--accent)':'var(--green)'};font-size:16px">${h.type==='lesson'?'✓':'💳'}</span><span>${h.type==='lesson'?`Урок: ${h.studentName} — ${h.count} ур. ${h.duration?'('+h.duration+' мин)':''}`:`Оплата: ${h.studentName} +${h.count} уроков`}</span></div><span class="history-date">${fmtDate(h.date)}</span></div>`).join('');
+    document.getElementById('history-list').innerHTML=window._history.slice(0,100).map(h=>`
+      <div class="history-item">
+        <div class="history-left">
+          <span style="color:${h.type==='lesson'?'var(--accent)':'var(--green)'};font-size:16px">${h.type==='lesson'?'✓':'💳'}</span>
+          <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${h.type==='lesson'?`Урок: ${h.studentName} — ${h.count} ур. ${h.duration?'('+h.duration+' мин)':''}`:`Оплата: ${h.studentName} +${h.count} уроков`}</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
+          <span class="history-date">${fmtDate(h.date)}</span>
+          <button class="btn btn-danger btn-sm" style="padding:4px 8px;font-size:11px" onclick="undoLesson('${h.id}')">↩</button>
+        </div>
+      </div>`).join('');
   }
 
   window.renderAll=function(){renderStudents();renderTeachers();renderHistory();setTwoWeeks();};
