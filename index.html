@@ -221,14 +221,18 @@
   function status(l){return l<=0?'danger':l<=2?'warning':'ok';}
   function statusColor(s){return s==='ok'?'var(--green)':s==='warning'?'var(--yellow)':'var(--red)';}
 
+  const SHEETS_URL="https://script.google.com/macros/s/AKfycbxfFVhtAhbDeEjB8kwP9capks5wWwGTpEiWEUvM0rMwp-XPDR4wRHVYmh6S880rOhGn/exec";
+
   async function saveAll(){
     if(!window._db)return;
     const ind=document.getElementById('saving-indicator');
     ind.textContent='сохраняю…';
+    const payload={students:window._students,teachers:window._teachers,history:window._history};
     try{
-      await window._setDoc(window._doc(window._db,'school','data'),{students:window._students,teachers:window._teachers,history:window._history});
+      await window._setDoc(window._doc(window._db,'school','data'),payload);
       ind.textContent='✓ сохранено';setTimeout(()=>ind.textContent='',2000);
     }catch(e){ind.textContent='⚠ ошибка';console.error(e);}
+    try{fetch(SHEETS_URL,{method:'POST',body:JSON.stringify(payload)}).catch(()=>{});}catch(e){}
   }
 
   function switchTab(name,btn){
